@@ -1,10 +1,15 @@
 ---
-- include: dependencies.yml
-- include: tools.yml
-- include: libs.yml
-- include: python.yml
-- include: java.yml
-- include: virtualbox.yml
-- include: vagrant.yml
-- include: docker.yml
-- include: heroku.yml
+- name: ensure minecraft installer ppa repository is enabled
+  apt_repository:
+    repo: ppa:minecraft-installer-peeps/minecraft-installer
+    update_cache: yes
+    state: present
+
+- name: ensure minecraft-installer is installed
+  apt: 
+    pkg: "{{ item }}" 
+    state: latest 
+    update_cache: yes 
+    cache_valid_time: 600
+  with_items:
+    - minecraft-installer
